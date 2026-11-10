@@ -52,5 +52,24 @@ class TestPassModel(unittest.TestCase):
         self.assertIsInstance(response, ChatCompletion)
         self.assertEqual("How are you?", response.choices[0].message.content)
 
+    def test_stop_uses_earliest_match(self):
+        client = Client(provider=YieldProviderMock)
+        for stop in (["you", "are"], ["are", "you"]):
+            with self.subTest(stop=stop):
+                messages = [{'role': 'user', 'content': "How are you?"}]
+                response = client.chat.completions.create(messages, "Hello", stop=stop)
+                self.assertEqual("How ", response.choices[0].message.content)
+                self.assertEqual("stop", response.choices[0].finish_reason)
+
+    def test_stream_stop_uses_earliest_match(self):
+        client = Client(provider=YieldProviderMock)
+        for stop in (["you", "are"], ["are", "you"]):
+            with self.subTest(stop=stop):
+                messages = [{'role': 'user', 'content': chunk} for chunk in ["How ", "are you?", "ignored"]]
+                response = list(client.chat.completions.create(messages, "Hello", stream=True, stop=stop))
+                content = "".join(chunk.choices[0].delta.content or "" for chunk in response)
+                self.assertEqual("How ", content)
+                self.assertEqual("stop", response[-1].choices[0].finish_reason)
+
 if __name__ == '__main__':
     unittest.main()
