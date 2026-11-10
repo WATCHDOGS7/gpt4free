@@ -53,11 +53,13 @@ def iter_response(
         first = -1
         word = None
         if stop is not None:
-            for word in list(stop):
-                first = content.find(word)
-                if first != -1:
-                    content = content[:first]
-                    break
+            for stop_word in stop:
+                position = content.find(stop_word)
+                if position != -1 and (first == -1 or position < first):
+                    first = position
+                    word = stop_word
+            if first != -1:
+                content = content[:first]
             if stream and first != -1:
                 first = chunk.find(word)
                 if first != -1:
