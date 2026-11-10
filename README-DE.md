@@ -72,93 +72,29 @@ pip install -U g4f
 pip install -U g4f
 ```
 
-##### oder
+##### Installation aus dem Quellcode und Tests
 
-1. Klonen Sie das GitHub-Repository:
+Verwenden Sie die [Schritt-für-Schritt-Anleitung](docs/git.md) für Git,
+Python 3.12, eine virtuelle Umgebung und die Installation dieses Checkouts.
+Nach dem Klonen und Aktivieren der Umgebung führen Sie im Projektverzeichnis aus:
 
-```
-git clone https://github.com/xtekky/gpt4free.git
-```
-
-2. Navigieren Sie zum Projektverzeichnis:
-
-```
-cd gpt4free
+```sh
+python -m pip install -r requirements-min.txt -e .
+python -m pip check
+python -m etc.unittest -v
 ```
 
-3. (Empfohlen) Erstellen Sie eine Python-Virtual-Umgebung:
-Sie können der [Python-Offiziellen Dokumentation](https://docs.python.org/3/tutorial/venv.html) für virtuelle Umgebungen folgen.
+Der minimale Testlauf benötigt weder Chrome noch ein Provider-Konto. Tests für
+optionale Abhängigkeiten werden übersprungen. `-e .` installiert auch den Befehl
+`g4f`; die Installation von `requirements.txt` allein tut dies nicht.
+Die Anleitung enthält außerdem den Wheel-Build und den Start von GUI und API.
 
-```
-python3 -m venv venv
-```
+##### Einrichten mit Docker
 
-4. Aktivieren Sie die virtuelle Umgebung:
-   - Unter Windows:
-   ```
-   .\venv\Scripts\activate
-   ```
-   - Unter macOS und Linux:
-   ```
-   source venv/bin/activate
-   ```
-5. Installieren Sie die erforderlichen Python-Pakete aus `requirements.txt`:
-
-```
-pip install -r requirements.txt
-```
-
-6. Erstellen Sie eine Datei `test.py` im Stammverzeichnis und beginnen Sie mit der Verwendung des Repositories. Weitere Anweisungen finden Sie unten
-
-```py
-import g4f
-
-...
-```
-
-##### Einrichten mit Docker:
-
-Wenn Docker installiert ist, können Sie das Projekt ohne manuelle Installation von Abhängigkeiten einfach einrichten und ausführen.
-
-1. Stellen Sie zunächst sicher, dass sowohl Docker als auch Docker Compose installiert sind.
-
-   - [Docker installieren](https://docs.docker.com/get-docker/)
-   - [Docker Compose installieren](https://docs.docker.com/compose/install/)
-
-2. Klonen Sie das GitHub-Repo:
-
-```bash
-git clone https://github.com/xtekky/gpt4free.git
-```
-
-3. Navigieren Sie zum Projektverzeichnis:
-
-```bash
-cd gpt4free
-```
-
-4. Erstellen Sie das Docker-Image:
-
-```bash
-docker-compose build
-```
-
-5. Starten Sie den Dienst mit Docker Compose:
-
-```bash
-docker-compose up
-```
-
-Ihr Server wird jetzt unter `http://localhost:1337` ausgeführt. Sie können mit der API interagieren oder Ihre Tests wie gewohnt ausführen.
-
-Um die Docker-Container zu stoppen, führen Sie einfach aus:
-
-```bash
-docker-compose down
-```
-
-> [!Note]
-> Wenn Sie Docker verwenden, werden alle Änderungen, die Sie an Ihren lokalen Dateien vornehmen, im Docker-Container durch die Volumenabbildung in der `docker-compose.yml`-Datei widergespiegelt. Wenn Sie jedoch Abhängigkeiten hinzufügen oder entfernen, müssen Sie das Docker-Image mit `docker-compose build` neu erstellen.
+Die [Docker-Anleitung](docs/docker.md) verwendet Docker Compose v2
+(`docker compose`). Der Quellcode-Build scheitert derzeit an einem Paketkonflikt
+im alten Basisimage. Nutzen Sie bis zur Behebung die Installation aus dem
+Quellcode oben; Details stehen im [Setup-Audit](docs/setup-audit.md).
 
 
 ## 💡 Verwendung
@@ -387,7 +323,7 @@ g4f api
 oder
 
 ```sh
-python -m g4f.api
+python -m g4f.cli api --bind 127.0.0.1:1337
 ```
 
 ```python
