@@ -6,7 +6,8 @@ import g4f
 from g4f.errors import MissingRequirementsError
 
 try:
-    from g4f.gui.server.backend import Backend_Api, get_error_message
+    from g4f.gui.server.backend import Backend_Api
+    from g4f.gui.server.api import get_error_message
     has_requirements = True
 except:
     has_requirements = False
