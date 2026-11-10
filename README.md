@@ -105,12 +105,13 @@ Run the Web UI on Your Smartphone:
 ##### Prerequisites:
 
 1. [Download and install Python](https://www.python.org/downloads/) (Version 3.10+ is recommended).
-2. [Install Google Chrome](https://www.google.com/chrome/) for providers with webdriver
+2. Use a virtual environment; see the [source setup guide](docs/git.md) for platform-specific commands.
+3. [Install Google Chrome](https://www.google.com/chrome/) only for providers with webdriver (not needed for the minimum unit tests).
 
 ##### Install using PyPI package:
 
 ```
-pip install -U g4f[all]
+python -m pip install -U 'g4f[all]'
 ```
 
 How do I install only parts or do disable parts?
@@ -119,13 +120,16 @@ Use partial requirements: [/docs/requirements](/docs/requirements.md)
 ##### Install from source:
 
 How do I load the project using git and installing the project requirements?
-Read this tutorial and follow it step by step: [/docs/git](/docs/git.md)
+Follow the [clone → virtual environment → install → test guide](docs/git.md).
+It includes the unit-test command, an optional wheel build, and local GUI/API
+startup checks. See the [setup audit](docs/setup-audit.md) for reproduced issues
+and verification limits.
 
 
 ##### Install using Docker:
 
 How do I build and run composer image from source?
-Use docker-compose: [/docs/docker](/docs/docker.md)
+Use Docker Compose v2: [/docs/docker](/docs/docker.md)
 
 
 ## 💡 Usage
